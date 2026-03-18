@@ -6,9 +6,9 @@ export const PORTFOLIO_CONFIG = {
 
   // Iconos y Links
   social: {
-    github: 'https://github.com/tuusuario',
-    linkedin: 'https://linkedin.com/in/tuusuario',
-    twitter: 'https://twitter.com/tuusuario',
+    github: 'https://github.com/efren1998-lan',
+    linkedin: 'https://linkedin.com/in/efren-alexis-hndz',
+    twitter: 'https://twitter.com/efren1998',
   },
 
   // Estadísticas para el Hero y About

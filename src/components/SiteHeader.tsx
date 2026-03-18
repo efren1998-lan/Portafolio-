@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react'
+import * as React from 'react'
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { Menu, X, Github, Linkedin, Twitter } from 'lucide-react'
-import './Navbar.css'
+import './Navigation.css'
 import { PORTFOLIO_CONFIG } from '../config'
+
+const { useState, useEffect } = React
 
 interface NavbarProps {
   isScrolled: boolean
@@ -21,10 +23,8 @@ export default function Navbar({ isScrolled }: NavbarProps) {
     const element = document.getElementById(id)
     if (element) {
       const offset = 80
-      const bodyRect = document.body.getBoundingClientRect().top
-      const elementRect = element.getBoundingClientRect().top
-      const elementPosition = elementRect - bodyRect
-      const offsetPosition = elementPosition - offset
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
 
       window.scrollTo({
         top: offsetPosition,
@@ -41,7 +41,8 @@ export default function Navbar({ isScrolled }: NavbarProps) {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="logo"
+          className="logo" 
+          onClick={() => scrollToSection('home')}
         >
           <span className="logo-accent">{PORTFOLIO_CONFIG.name.split(' ')[0]}</span>
           <span className="logo-dot">.</span>
@@ -49,49 +50,34 @@ export default function Navbar({ isScrolled }: NavbarProps) {
 
         {/* Desktop Menu */}
         <ul className="nav-menu desktop-only">
-          {['about', 'projects', 'skills', 'services', 'contact'].map((item, index) => (
-            <motion.li 
-              key={item}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
+          {['home', 'about', 'services', 'projects', 'skills', 'contact'].map((item) => (
+            <li key={item}>
               <button onClick={() => scrollToSection(item)}>
-                {item === 'about' ? 'Sobre Mí' : 
-                 item === 'projects' ? 'Proyectos' : 
-                 item === 'skills' ? 'Habilidades' : 
-                 item === 'services' ? 'Servicios' : 'Contacto'}
+                {item.charAt(0).toUpperCase() + item.slice(1)}
               </button>
-            </motion.li>
+            </li>
           ))}
         </ul>
 
-        {/* Tablet/Mobile Toggle */}
-        <button
-          className="menu-toggle"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
+        {/* Mobile Toggle */}
+        <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div
+            <motion.div 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className="mobile-menu glass"
             >
               <ul>
-                {['about', 'projects', 'skills', 'services', 'contact'].map((item) => (
+                {['home', 'about', 'services', 'projects', 'skills', 'contact'].map((item) => (
                   <li key={item}>
                     <button onClick={() => scrollToSection(item)}>
-                      {item === 'about' ? 'Sobre Mí' : 
-                       item === 'projects' ? 'Proyectos' : 
-                       item === 'skills' ? 'Habilidades' : 
-                       item === 'services' ? 'Servicios' : 'Contacto'}
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
                     </button>
                   </li>
                 ))}

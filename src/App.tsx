@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import About from './components/About'
-import Projects from './components/Projects'
-import Skills from './components/Skills'
-import Services from './components/Services'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
-import CustomCursor from './components/CustomCursor'
+import SiteHeader from './components/SiteHeader.tsx'
+import Hero from './components/Hero.tsx'
+import About from './components/About.tsx'
+import Projects from './components/Projects.tsx'
+import Skills from './components/Skills.tsx'
+import Services from './components/Services.tsx'
+import Contact from './components/Contact.tsx'
+import Footer from './components/Footer.tsx'
+import CustomCursor from './components/CustomCursor.tsx'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
   return (
     <motion.div className="app" style={{ backgroundColor: background }}>
       <CustomCursor />
-      <Navbar isScrolled={isScrolled} />
+      <SiteHeader isScrolled={isScrolled} />
       <Hero />
       <About />
       <Projects />

@@ -1,0 +1,5 @@
+
+> portafolio-alexis@0.0.0 build
+> tsc -b && vite build
+
+src/components/Navbar.tsx(1,20): error TS6133: 'useEffect' is declared but its value is never read.

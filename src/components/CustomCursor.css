@@ -1,0 +1,37 @@
+.custom-cursor {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--primary);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+}
+
+.custom-cursor.hovering {
+  width: 64px;
+  height: 64px;
+  background-color: rgba(0, 212, 255, 0.1);
+  border-width: 1px;
+}
+
+.custom-cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10001;
+}
+
+@media (max-width: 1024px) {
+  .custom-cursor, .custom-cursor-dot {
+    display: none;
+  }
+}

@@ -222,9 +222,10 @@ export default function Projects() {
         </motion.div>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {selectedProject && (
           <motion.div
+            key={selectedProject.id}
             className="project-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -243,7 +244,7 @@ export default function Projects() {
               </button>
 
               <div className="modal-gallery">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                   <motion.img
                     key={currentImageIndex}
                     src={selectedProject.images[currentImageIndex]}

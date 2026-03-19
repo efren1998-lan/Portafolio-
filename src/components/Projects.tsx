@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Github, Code, Layers, Globe, Smartphone, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ExternalLink, Github, Code, Layers, Globe, Smartphone, X, ChevronLeft, ChevronRight, PlayCircle } from 'lucide-react'
 import './Projects.css'
 
 interface Project {
@@ -13,6 +13,7 @@ interface Project {
   github: string
   category: string
   images: string[]
+  videoUrl?: string
 }
 
 export default function Projects() {
@@ -58,25 +59,33 @@ export default function Projects() {
     },
     {
       id: 3,
-      title: 'Weather Dashboard',
-      description: 'Dashboard de clima con pronósticos y análisis de datos meteorológicos.',
+      title: 'Aplicativo para automitizar levantamientos de fibra optica',
+      description: 'Aplicación para automitizar levantamientos de fibra optica.',
       icon: <Code className="project-icon-svg" />,
       tags: ['React', 'API Weather', 'Chart.js', 'TypeScript'],
-      link: '#',
-      github: '#',
+      link: '',
+      github: '',
       category: 'Data',
-      images: []
+      images: [
+        '/assets/projects/fibra/fibra 1.png',
+        '/assets/projects/fibra/fibra 2.png',
+        '/assets/projects/fibra/fibra 3.png',
+        '/assets/projects/fibra/fibra 4.png',
+        '/assets/projects/fibra/fibra 5.png',
+        '/assets/projects/fibra/fibra 6.png',
+      ]
     },
     {
       id: 4,
-      title: 'Social Media App',
-      description: 'Red social con posts, comentarios, likes y sistema de seguimiento de usuarios.',
+      title: 'Aplicativo de procesamiento de datos de enlaces via MW',
+      description: 'Aplicativo de procesamiento de datos de enlaces via MW.',
       icon: <Smartphone className="project-icon-svg" />,
       tags: ['Next.js', 'PostgreSQL', 'Prisma', 'GraphQL'],
       link: '#',
       github: '#',
-      category: 'Social',
-      images: []
+      category: 'Interno',
+      images: [],
+      videoUrl: 'https://1drv.ms/v/s!Atl64vaH6WM1b4-uW7jw4oc3Pv0?e=gysfaZ'
     }
   ]
 
@@ -136,6 +145,8 @@ export default function Projects() {
                   if (project.images && project.images.length > 0) {
                     setSelectedProject(project)
                     setCurrentImageIndex(0)
+                  } else if (project.videoUrl) {
+                    window.open(project.videoUrl, '_blank')
                   }
                 }}
                 whileHover={{ y: -12, scale: 1.02, transition: { duration: 0.3 } }}
@@ -163,10 +174,17 @@ export default function Projects() {
                   )}
                   <div className="project-overlay">
                     <span className="project-category">{project.category}</span>
-                    <div className="view-gallery-badge">
-                      <Layers size={14} />
-                      Galería
-                    </div>
+                    {project.images && project.images.length > 0 ? (
+                      <div className="view-gallery-badge">
+                        <Layers size={14} />
+                        Galería
+                      </div>
+                    ) : project.videoUrl ? (
+                      <div className="view-gallery-badge">
+                        <PlayCircle size={14} />
+                        Ver Video
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 

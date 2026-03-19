@@ -26,8 +26,8 @@ export default function Projects() {
       description: 'Plataforma premium para la venta y catálogo de fragancias exclusivas.',
       icon: <Globe className="project-icon-svg" />,
       tags: ['React', 'Framer Motion', 'E-commerce', 'UI/UX'],
-      link: '#',
-      github: '#',
+      link: 'https://efren1998-lan.github.io/venta-de-perfumes/',
+      github: 'https://github.com/efren1998-lan/venta-de-perfumes',
       category: 'Web App',
       images: [
         '/assets/projects/perfumes/perfumes 1.png',

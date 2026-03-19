@@ -141,10 +141,26 @@ export default function Projects() {
                 }}
               >
                 <div className="project-header">
-                  <div className="project-icon-wrapper">
-                    {project.icon}
+                  {project.images && project.images.length > 0 ? (
+                    <motion.img 
+                      src={project.images[0]} 
+                      alt={project.title} 
+                      className="project-card-image"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  ) : (
+                    <div className="project-icon-wrapper">
+                      {project.icon}
+                    </div>
+                  )}
+                  <div className="project-overlay">
+                    <span className="project-category">{project.category}</span>
+                    <div className="view-gallery-badge">
+                      <Layers size={14} />
+                      Galería
+                    </div>
                   </div>
-                  <span className="project-category">{project.category}</span>
                 </div>
 
                 <div className="project-content">

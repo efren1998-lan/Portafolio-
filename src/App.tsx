@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import SiteHeader from './components/SiteHeader.tsx'
+import Hero from './components/Hero.tsx'
+import About from './components/About.tsx'
+import Projects from './components/Projects.tsx'
+import Skills from './components/Skills.tsx'
+import Services from './components/Services.tsx'
+import Contact from './components/Contact.tsx'
+import Footer from './components/Footer.tsx'
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -14,6 +21,13 @@ function App() {
   return (
     <div className="app">
       <SiteHeader isScrolled={isScrolled} />
+      <Hero />
+      <About />
+      <Projects />
+      <Skills />
+      <Services />
+      <Contact />
+      <Footer />
     </div>
   )
 }

@@ -40,14 +40,21 @@ export default function Projects() {
     },
     {
       id: 2,
-      title: 'Task Management App',
+      title: 'Aplicativo Odoo + apk para crear alertas',
       description: 'Aplicación de gestión de tareas con colaboración en tiempo real y notificaciones.',
       icon: <Layers className="project-icon-svg" />,
       tags: ['React', 'Firebase', 'Tailwind', 'WebSocket'],
       link: '#',
       github: '#',
       category: 'Productivity',
-      images: []
+      images: [
+        '/assets/projects/odoo/odoo 1.png',
+        '/assets/projects/odoo/odoo 2.png',
+        '/assets/projects/odoo/odoo 3.png',
+        '/assets/projects/odoo/odoo 4.png',
+        '/assets/projects/odoo/odoo 5.png',
+        '/assets/projects/odoo/odoo 6.png',
+      ]
     },
     {
       id: 3,
@@ -97,9 +104,9 @@ export default function Projects() {
 
   const projectVariants = {
     hidden: { opacity: 0, y: 40, scale: 0.95 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
+    visible: {
+      opacity: 1,
+      y: 0,
       scale: 1,
       transition: { duration: 0.6 }
     }
@@ -116,7 +123,7 @@ export default function Projects() {
           <span className="section-subtitle">Lo que he construido</span>
           <h2 className="section-title">Proyectos Destacados</h2>
 
-          <motion.div 
+          <motion.div
             className="projects-grid"
             variants={containerVariants}
           >
@@ -142,9 +149,9 @@ export default function Projects() {
               >
                 <div className="project-header">
                   {project.images && project.images.length > 0 ? (
-                    <motion.img 
-                      src={project.images[0]} 
-                      alt={project.title} 
+                    <motion.img
+                      src={project.images[0]}
+                      alt={project.title}
                       className="project-card-image"
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.6 }}
@@ -187,7 +194,7 @@ export default function Projects() {
               </motion.div>
             ))}
           </motion.div>
-          
+
           <div className="projects-footer">
             <a href="https://github.com/tuusuario" target="_blank" rel="noreferrer" className="btn btn-outline">
               Ver más en GitHub
@@ -199,14 +206,14 @@ export default function Projects() {
 
       <AnimatePresence>
         {selectedProject && (
-          <motion.div 
+          <motion.div
             className="project-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedProject(null)}
           >
-            <motion.div 
+            <motion.div
               className="project-modal glass"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
@@ -240,8 +247,8 @@ export default function Projects() {
                     </button>
                     <div className="gallery-dots">
                       {selectedProject.images.map((_, i) => (
-                        <div 
-                          key={i} 
+                        <div
+                          key={i}
                           className={`dot ${i === currentImageIndex ? 'active' : ''}`}
                           onClick={() => setCurrentImageIndex(i)}
                         />
@@ -267,3 +274,4 @@ export default function Projects() {
     </section>
   )
 }
+

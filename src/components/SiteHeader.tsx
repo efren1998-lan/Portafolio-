@@ -1,23 +1,27 @@
 import * as React from 'react'
-import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Github, Linkedin, Twitter } from 'lucide-react'
 import './SiteHeader.css'
 import { PORTFOLIO_CONFIG } from '../config'
-
-const { useState } = React
 
 interface NavbarProps {
   isScrolled: boolean
 }
 
 export default function Navbar({ isScrolled }: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  })
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const [scrollPct, setScrollPct] = React.useState(0)
+
+  React.useEffect(() => {
+    const onScroll = () => {
+      const el = document.documentElement
+      const scrolled = el.scrollTop || document.body.scrollTop
+      const total = el.scrollHeight - el.clientHeight
+      setScrollPct(total > 0 ? (scrolled / total) * 100 : 0)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -36,7 +40,10 @@ export default function Navbar({ isScrolled }: NavbarProps) {
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-      <motion.div className="scroll-progress-bar" style={{ scaleX }} />
+      <div
+        className="scroll-progress-bar"
+        style={{ width: `${scrollPct}%` }}
+      />
       <div className="navbar-container container">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}

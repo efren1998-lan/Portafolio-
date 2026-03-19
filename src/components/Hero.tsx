@@ -8,37 +8,42 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
   const [index, setIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
+  const [speed, setSpeed] = useState(100)
 
   useEffect(() => {
-    let timeout: any
-
     const handleType = () => {
       const current = texts[index]
       
       if (!isDeleting) {
-        setDisplayText(current.substring(0, displayText.length + 1))
+        const nextText = current.substring(0, displayText.length + 1)
+        setDisplayText(nextText)
         
-        if (displayText.length === current.length) {
-          timeout = setTimeout(() => setIsDeleting(true), 1500)
+        if (nextText === current) {
+          setIsDeleting(true)
+          setSpeed(1500) // Pause at end
         } else {
-          timeout = setTimeout(handleType, 100)
+          setSpeed(100)
         }
       } else {
-        setDisplayText(current.substring(0, displayText.length - 1))
+        const nextText = current.substring(0, displayText.length - 1)
+        setDisplayText(nextText)
         
-        if (displayText.length === 0) {
+        if (nextText === '') {
           setIsDeleting(false)
           setIndex((prev) => (prev + 1) % texts.length)
-          timeout = setTimeout(handleType, 500)
+          setSpeed(500) // Pause before next word
         } else {
-          timeout = setTimeout(handleType, 50)
+          setSpeed(50)
         }
       }
     }
 
-    timeout = setTimeout(handleType, 100)
+    const timeout = setTimeout(handleType, speed)
     return () => clearTimeout(timeout)
-  }, [isDeleting, index, texts.join(',')]) // Use joined string to avoid dependency loop with array literal
+  }, [displayText, isDeleting, index, texts, speed])
+
+  return <span className="typewriter-text">{displayText}<span className="cursor">|</span></span>
+}
 
   return <span className="typewriter-text">{displayText}<span className="cursor">|</span></span>
 }

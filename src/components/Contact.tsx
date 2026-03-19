@@ -1,32 +1,27 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, CheckCircle2 } from 'lucide-react'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import confetti from 'canvas-confetti'
 import './Contact.css'
 import { PORTFOLIO_CONFIG } from '../config'
 
 export default function Contact() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle')
-  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setFormState('submitting')
     
-    // Simular envío
     setTimeout(() => {
       setFormState('success')
       try {
-        if (canvasRef.current) {
-          const myConfetti = confetti.create(canvasRef.current, { resize: true, useWorker: false })
-          myConfetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#00d4ff', '#00ffaa', '#ffffff']
-          })
-        }
-      } catch (e) {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#00d4ff', '#00ffaa', '#ffffff']
+        })
+      } catch (_e) {
         // confetti is cosmetic, ignore errors
       }
     }, 1500)
@@ -34,11 +29,6 @@ export default function Contact() {
 
   return (
     <section id="contact" className="contact section">
-      {/* Dedicated canvas for confetti — always mounted so React owns the DOM node */}
-      <canvas
-        ref={canvasRef}
-        style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 9999 }}
-      />
       <div className="container">
         <span className="section-subtitle">¿Tienes un proyecto?</span>
         <h2 className="section-title">Hablemos</h2>

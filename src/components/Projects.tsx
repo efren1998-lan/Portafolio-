@@ -1,6 +1,6 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import { ExternalLink, Github, Code, Layers, Globe, Smartphone } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ExternalLink, Github, Code, Layers, Globe, Smartphone, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import './Projects.css'
 
 interface Project {
@@ -12,19 +12,31 @@ interface Project {
   link: string
   github: string
   category: string
+  images: string[]
 }
 
 export default function Projects() {
+  const [selectedProject, setSelectedProject] = React.useState<Project | null>(null)
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0)
+
   const projects: Project[] = [
     {
       id: 1,
-      title: 'E-Commerce Platform',
-      description: 'Plataforma completa de comercio electrónico con carrito, checkout y panel administrativo.',
+      title: 'Página de Ventas de Perfumes',
+      description: 'Plataforma premium para la venta y catálogo de fragancias exclusivas.',
       icon: <Globe className="project-icon-svg" />,
-      tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      tags: ['React', 'Framer Motion', 'E-commerce', 'UI/UX'],
       link: '#',
       github: '#',
-      category: 'Web App'
+      category: 'Web App',
+      images: [
+        '/assets/projects/perfumes/perfumes 1.png',
+        '/assets/projects/perfumes/perfume 2.png',
+        '/assets/projects/perfumes/perfumes 3.png',
+        '/assets/projects/perfumes/perfume 4.png',
+        '/assets/projects/perfumes/perfumes 5.png',
+        '/assets/projects/perfumes/perfumes 6.png'
+      ]
     },
     {
       id: 2,
@@ -34,7 +46,8 @@ export default function Projects() {
       tags: ['React', 'Firebase', 'Tailwind', 'WebSocket'],
       link: '#',
       github: '#',
-      category: 'Productivity'
+      category: 'Productivity',
+      images: []
     },
     {
       id: 3,
@@ -44,7 +57,8 @@ export default function Projects() {
       tags: ['React', 'API Weather', 'Chart.js', 'TypeScript'],
       link: '#',
       github: '#',
-      category: 'Data'
+      category: 'Data',
+      images: []
     },
     {
       id: 4,
@@ -54,9 +68,22 @@ export default function Projects() {
       tags: ['Next.js', 'PostgreSQL', 'Prisma', 'GraphQL'],
       link: '#',
       github: '#',
-      category: 'Social'
+      category: 'Social',
+      images: []
     }
   ]
+
+  const nextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation()
+    if (!selectedProject) return
+    setCurrentImageIndex((prev) => (prev + 1) % selectedProject.images.length)
+  }
+
+  const prevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation()
+    if (!selectedProject) return
+    setCurrentImageIndex((prev) => (prev - 1 + selectedProject.images.length) % selectedProject.images.length)
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -98,6 +125,12 @@ export default function Projects() {
                 key={project.id}
                 className="project-card glass-card"
                 variants={projectVariants}
+                onClick={() => {
+                  if (project.images && project.images.length > 0) {
+                    setSelectedProject(project)
+                    setCurrentImageIndex(0)
+                  }
+                }}
                 whileHover={{ y: -12, scale: 1.02, transition: { duration: 0.3 } }}
                 onMouseMove={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
@@ -147,6 +180,74 @@ export default function Projects() {
           </div>
         </motion.div>
       </div>
+
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div 
+            className="project-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div 
+              className="project-modal glass"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="modal-close" onClick={() => setSelectedProject(null)}>
+                <X size={24} />
+              </button>
+
+              <div className="modal-gallery">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={currentImageIndex}
+                    src={selectedProject.images[currentImageIndex]}
+                    alt={selectedProject.title}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="modal-image"
+                  />
+                </AnimatePresence>
+
+                {selectedProject.images.length > 1 && (
+                  <>
+                    <button className="gallery-nav prev" onClick={prevImage}>
+                      <ChevronLeft size={32} />
+                    </button>
+                    <button className="gallery-nav next" onClick={nextImage}>
+                      <ChevronRight size={32} />
+                    </button>
+                    <div className="gallery-dots">
+                      {selectedProject.images.map((_, i) => (
+                        <div 
+                          key={i} 
+                          className={`dot ${i === currentImageIndex ? 'active' : ''}`}
+                          onClick={() => setCurrentImageIndex(i)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="modal-info">
+                <h3>{selectedProject.title}</h3>
+                <p>{selectedProject.description}</p>
+                <div className="project-tags" style={{ marginTop: '1rem' }}>
+                  {selectedProject.tags.map(tag => (
+                    <span key={tag} className="tag">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

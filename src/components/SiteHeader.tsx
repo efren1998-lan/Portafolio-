@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { Menu, X, Github, Linkedin, Twitter } from 'lucide-react'
-import './Navigation.css'
+import './SiteHeader.css'
 import { PORTFOLIO_CONFIG } from '../config'
 
 const { useState, useEffect } = React

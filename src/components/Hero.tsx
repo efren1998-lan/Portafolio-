@@ -45,9 +45,6 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
   return <span className="typewriter-text">{displayText}<span className="cursor">|</span></span>
 }
 
-  return <span className="typewriter-text">{displayText}<span className="cursor">|</span></span>
-}
-
 export default function Hero() {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)

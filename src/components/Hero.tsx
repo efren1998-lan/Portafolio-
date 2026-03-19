@@ -1,56 +1,7 @@
-import { useEffect, useState, useRef } from 'react'
+import { useRef } from 'react'
 import { Download, ChevronRight, Github, Linkedin, Twitter, Code2, Layers } from 'lucide-react'
 import './Hero.css'
 import { PORTFOLIO_CONFIG } from '../config'
-
-const TypewriterText = ({ texts }: { texts: string[] }) => {
-  const [displayText, setDisplayText] = useState('')
-  const stateRef = useRef({ index: 0, isDeleting: false, speed: 100 })
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    const tick = () => {
-      const { index, isDeleting } = stateRef.current
-      const current = texts[index]
-
-      setDisplayText(prev => {
-        if (!isDeleting) {
-          const next = current.substring(0, prev.length + 1)
-          if (next === current) {
-            stateRef.current.isDeleting = true
-            stateRef.current.speed = 1500
-          } else {
-            stateRef.current.speed = 100
-          }
-          return next
-        } else {
-          const next = current.substring(0, prev.length - 1)
-          if (next === '') {
-            stateRef.current.isDeleting = false
-            stateRef.current.index = (index + 1) % texts.length
-            stateRef.current.speed = 500
-          } else {
-            stateRef.current.speed = 50
-          }
-          return next
-        }
-      })
-
-      timeoutRef.current = setTimeout(tick, stateRef.current.speed)
-    }
-
-    timeoutRef.current = setTimeout(tick, stateRef.current.speed)
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    }
-  }, [texts])
-
-  return (
-    <span className="typewriter-text">
-      {displayText}<span className="cursor">|</span>
-    </span>
-  )
-}
 
 export default function Hero() {
   const cardRef = useRef<HTMLDivElement>(null)
@@ -83,7 +34,7 @@ export default function Hero() {
           <span className="hero-greeting">Hola, soy</span>
           <h1 className="hero-name gradient-text">{PORTFOLIO_CONFIG.name}</h1>
           <div className="hero-title">
-            <TypewriterText texts={['IA & Automatización', 'Ingeniero de Datos', 'Cloud Solutions Architect']} />
+            <span className="typewriter-text">IA & Automatización</span>
           </div>
           <p className="hero-description">{PORTFOLIO_CONFIG.about.summary}</p>
           <div className="hero-actions">

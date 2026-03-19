@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { motion } from 'framer-motion'
 import { Menu, X, Github, Linkedin, Twitter } from 'lucide-react'
 import './SiteHeader.css'
 import { PORTFOLIO_CONFIG } from '../config'
@@ -39,16 +38,10 @@ export default function Navbar({ isScrolled }: NavbarProps) {
       <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
         <div className="scroll-progress-bar" style={{ width: `${scrollPct}%` }} />
         <div className="navbar-container container">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="logo"
-            onClick={() => scrollToSection('home')}
-          >
+          <div className="logo" onClick={() => scrollToSection('home')}>
             <span className="logo-accent">{PORTFOLIO_CONFIG.name.split(' ')[0]}</span>
             <span className="logo-dot">.</span>
-          </motion.div>
-
+          </div>
           <ul className="nav-menu desktop-only">
             {['home', 'about', 'services', 'projects', 'skills', 'contact'].map((item) => (
               <li key={item}>
@@ -58,7 +51,6 @@ export default function Navbar({ isScrolled }: NavbarProps) {
               </li>
             ))}
           </ul>
-
           <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -66,12 +58,7 @@ export default function Navbar({ isScrolled }: NavbarProps) {
       </nav>
 
       {isMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className="mobile-menu glass"
-        >
+        <div className="mobile-menu glass">
           <ul>
             {['home', 'about', 'services', 'projects', 'skills', 'contact'].map((item) => (
               <li key={item}>
@@ -86,7 +73,7 @@ export default function Navbar({ isScrolled }: NavbarProps) {
             <a href={PORTFOLIO_CONFIG.social.linkedin} target="_blank" rel="noreferrer"><Linkedin size={20} /></a>
             <a href={PORTFOLIO_CONFIG.social.twitter} target="_blank" rel="noreferrer"><Twitter size={20} /></a>
           </div>
-        </motion.div>
+        </div>
       )}
     </>
   )

@@ -4,31 +4,52 @@ import './Hero.css'
 import { PORTFOLIO_CONFIG } from '../config'
 
 const TypewriterText = ({ texts }: { texts: string[] }) => {
-  const [index, setIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [speed, setSpeed] = useState(100)
+  const stateRef = useRef({ index: 0, isDeleting: false, speed: 100 })
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    const handleType = () => {
+    const tick = () => {
+      const { index, isDeleting } = stateRef.current
       const current = texts[index]
-      if (!isDeleting) {
-        const nextText = current.substring(0, displayText.length + 1)
-        setDisplayText(nextText)
-        if (nextText === current) { setIsDeleting(true); setSpeed(1500) }
-        else setSpeed(100)
-      } else {
-        const nextText = current.substring(0, displayText.length - 1)
-        setDisplayText(nextText)
-        if (nextText === '') { setIsDeleting(false); setIndex((prev) => (prev + 1) % texts.length); setSpeed(500) }
-        else setSpeed(50)
-      }
-    }
-    const timeout = setTimeout(handleType, speed)
-    return () => clearTimeout(timeout)
-  }, [displayText, isDeleting, index, texts, speed])
 
-  return <span className="typewriter-text">{displayText}<span className="cursor">|</span></span>
+      setDisplayText(prev => {
+        if (!isDeleting) {
+          const next = current.substring(0, prev.length + 1)
+          if (next === current) {
+            stateRef.current.isDeleting = true
+            stateRef.current.speed = 1500
+          } else {
+            stateRef.current.speed = 100
+          }
+          return next
+        } else {
+          const next = current.substring(0, prev.length - 1)
+          if (next === '') {
+            stateRef.current.isDeleting = false
+            stateRef.current.index = (index + 1) % texts.length
+            stateRef.current.speed = 500
+          } else {
+            stateRef.current.speed = 50
+          }
+          return next
+        }
+      })
+
+      timeoutRef.current = setTimeout(tick, stateRef.current.speed)
+    }
+
+    timeoutRef.current = setTimeout(tick, stateRef.current.speed)
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [texts])
+
+  return (
+    <span className="typewriter-text">
+      {displayText}<span className="cursor">|</span>
+    </span>
+  )
 }
 
 export default function Hero() {
@@ -80,11 +101,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div
-          className="hero-image-container"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-        >
+        <div className="hero-image-container" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
           <div ref={cardRef} className="profile-card glass" style={{ transition: 'transform 0.15s ease-out' }}>
             <div className="profile-image-wrapper">
               <img src="/assets/photo.jpg" alt={PORTFOLIO_CONFIG.name} className="profile-image" />

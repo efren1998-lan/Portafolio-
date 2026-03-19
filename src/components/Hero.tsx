@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { useEffect, useState, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Download, ChevronRight, Github, Linkedin, Twitter, Code2, Layers } from 'lucide-react'
 import './Hero.css'
 import { PORTFOLIO_CONFIG } from '../config'
@@ -20,7 +20,7 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
 
         if (nextText === current) {
           setIsDeleting(true)
-          setSpeed(1500) // Pause at end
+          setSpeed(1500)
         } else {
           setSpeed(100)
         }
@@ -31,7 +31,7 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
         if (nextText === '') {
           setIsDeleting(false)
           setIndex((prev) => (prev + 1) % texts.length)
-          setSpeed(500) // Pause before next word
+          setSpeed(500)
         } else {
           setSpeed(50)
         }
@@ -46,26 +46,21 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
 }
 
 export default function Hero() {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
+  const cardRef = useRef<HTMLDivElement>(null)
 
-  const springConfig = { damping: 25, stiffness: 150 }
-  const mouseXSpring = useSpring(mouseX, springConfig)
-  const mouseYSpring = useSpring(mouseY, springConfig)
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left - rect.width / 2
+    const y = e.clientY - rect.top - rect.height / 2
+    const rotateX = (-y / (rect.height / 2)) * 8
+    const rotateY = (x / (rect.width / 2)) * 8
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+  }
 
-  const blob1X = useTransform(mouseXSpring, [-500, 500], [-80, 80])
-  const blob1Y = useTransform(mouseYSpring, [-500, 500], [-80, 80])
-  const blob2X = useTransform(mouseXSpring, [-500, 500], [80, -80])
-  const blob2Y = useTransform(mouseYSpring, [-500, 500], [80, -80])
-  const blob3X = useTransform(mouseXSpring, [-500, 500], [-30, 30])
-  const blob3Y = useTransform(mouseYSpring, [-500, 500], [30, -30])
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e
-    const moveX = clientX - window.innerWidth / 2
-    const moveY = clientY - window.innerHeight / 2
-    mouseX.set(moveX)
-    mouseY.set(moveY)
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return
+    cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)'
   }
 
   const containerVariants = {
@@ -81,15 +76,12 @@ export default function Hero() {
     visible: { opacity: 1, y: 0 }
   }
 
-  const cardRotateX = useTransform(mouseYSpring, [-500, 500], [10, -10])
-  const cardRotateY = useTransform(mouseXSpring, [-500, 500], [-10, 10])
-
   return (
-    <section id="home" className="hero" onMouseMove={handleMouseMove}>
+    <section id="home" className="hero">
       <div className="hero-background">
-        <motion.div style={{ x: blob1X, y: blob1Y }} className="blob blob-1"></motion.div>
-        <motion.div style={{ x: blob2X, y: blob2Y }} className="blob blob-2"></motion.div>
-        <motion.div style={{ x: blob3X, y: blob3Y }} className="blob blob-3"></motion.div>
+        <div className="blob blob-1"></div>
+        <div className="blob blob-2"></div>
+        <div className="blob blob-3"></div>
       </div>
 
       <div className="container hero-container">
@@ -148,11 +140,13 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          style={{ perspective: 1000 }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
         >
-          <motion.div
+          <div
+            ref={cardRef}
             className="profile-card glass"
-            style={{ rotateX: cardRotateX, rotateY: cardRotateY }}
+            style={{ transition: 'transform 0.15s ease-out' }}
           >
             <div className="profile-image-wrapper">
               <img src="/assets/photo.jpg" alt={PORTFOLIO_CONFIG.name} className="profile-image" />
@@ -176,7 +170,7 @@ export default function Hero() {
             <div className="profile-floating-icon icon-2">
               <Layers size={24} />
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 
@@ -193,3 +187,4 @@ export default function Hero() {
     </section>
   )
 }
+

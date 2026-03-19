@@ -9,6 +9,7 @@
   pointer-events: none;
   z-index: 10000;
   transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+  will-change: transform;
 }
 
 .custom-cursor.hovering {
@@ -28,6 +29,7 @@
   left: 0;
   pointer-events: none;
   z-index: 10001;
+  will-change: transform;
 }
 
 @media (max-width: 1024px) {

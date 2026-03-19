@@ -9,30 +9,21 @@ import Services from './components/Services.tsx'
 import Contact from './components/Contact.tsx'
 import Footer from './components/Footer.tsx'
 import CustomCursor from './components/CustomCursor.tsx'
-import { motion, useScroll, useTransform } from 'framer-motion'
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const { scrollYProgress } = useScroll()
-  
-  // Dynamic background shift
-  const background = useTransform(
-    scrollYProgress,
-    [0, 0.3, 0.6, 1],
-    ['#050505', '#0a0a10', '#0a0a0a', '#050505']
-  )
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
-    <motion.div className="app" style={{ backgroundColor: background }}>
+    <div className="app">
       <CustomCursor />
       <SiteHeader isScrolled={isScrolled} />
       <Hero />
@@ -42,8 +33,9 @@ function App() {
       <Services />
       <Contact />
       <Footer />
-    </motion.div>
+    </div>
   )
 }
 
 export default App
+

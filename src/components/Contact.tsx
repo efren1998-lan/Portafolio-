@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, CheckCircle2 } from 'lucide-react'
 import { useState } from 'react'
 import confetti from 'canvas-confetti'
@@ -11,19 +10,11 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setFormState('submitting')
-
     setTimeout(() => {
       setFormState('success')
       try {
-        confetti({
-          particleCount: 150,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#00d4ff', '#00ffaa', '#ffffff']
-        })
-      } catch (_e) {
-        // confetti is cosmetic, ignore errors
-      }
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#00d4ff', '#00ffaa', '#ffffff'] })
+      } catch (_e) {}
     }, 1500)
   }
 
@@ -32,17 +23,10 @@ export default function Contact() {
       <div className="container">
         <span className="section-subtitle">¿Tienes un proyecto?</span>
         <h2 className="section-title">Hablemos</h2>
-
         <div className="contact-grid">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="contact-info-card glass-card info-card"
-          >
+          <div className="contact-info-card glass-card info-card">
             <h3>Información de Contacto</h3>
             <p>Estoy disponible para nuevos proyectos y colaboraciones. ¡No dudes en escribirme!</p>
-
             <div className="info-items">
               <div className="info-item">
                 <div className="info-icon"><Mail /></div>
@@ -53,20 +37,13 @@ export default function Contact() {
               </div>
               <div className="info-item">
                 <div className="info-icon"><Phone /></div>
-                <div className="info-text">
-                  <span>Teléfono</span>
-                  <p>{PORTFOLIO_CONFIG.contact.phone}</p>
-                </div>
+                <div className="info-text"><span>Teléfono</span><p>{PORTFOLIO_CONFIG.contact.phone}</p></div>
               </div>
               <div className="info-item">
                 <div className="info-icon"><MapPin /></div>
-                <div className="info-text">
-                  <span>Ubicación</span>
-                  <p>{PORTFOLIO_CONFIG.contact.location}</p>
-                </div>
+                <div className="info-text"><span>Ubicación</span><p>{PORTFOLIO_CONFIG.contact.location}</p></div>
               </div>
             </div>
-
             <div className="social-footer">
               <span>Sígueme en redes</span>
               <div className="social-links">
@@ -75,14 +52,9 @@ export default function Contact() {
                 <a href={PORTFOLIO_CONFIG.social.twitter} target="_blank" rel="noreferrer"><Twitter /></a>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="contact-form-card glass-card premium-form"
-          >
+          <div className="contact-form-card glass-card premium-form">
             {formState !== 'success' ? (
               <form onSubmit={handleSubmit}>
                 <div className="form-row">
@@ -95,43 +67,27 @@ export default function Contact() {
                     <input type="email" id="email" placeholder="tu@email.com" required disabled={formState === 'submitting'} />
                   </div>
                 </div>
-
                 <div className="form-group">
                   <label htmlFor="subject">Asunto</label>
                   <input type="text" id="subject" placeholder="¿En qué puedo ayudarte?" required disabled={formState === 'submitting'} />
                 </div>
-
                 <div className="form-group">
                   <label htmlFor="message">Mensaje</label>
                   <textarea id="message" rows={5} placeholder="Cuéntame sobre tu proyecto..." required disabled={formState === 'submitting'}></textarea>
                 </div>
-
-                <button
-                  type="submit"
-                  className={`btn btn-primary btn-block ${formState === 'submitting' ? 'loading' : ''}`}
-                  disabled={formState === 'submitting'}
-                >
-                  {formState === 'submitting' ? 'Enviando...' : (
-                    <>
-                      Enviar Mensaje
-                      <Send size={18} />
-                    </>
-                  )}
+                <button type="submit" className={`btn btn-primary btn-block ${formState === 'submitting' ? 'loading' : ''}`} disabled={formState === 'submitting'}>
+                  {formState === 'submitting' ? 'Enviando...' : <><span>Enviar Mensaje</span><Send size={18} /></>}
                 </button>
               </form>
             ) : (
               <div className="form-success">
-                <div className="success-icon">
-                  <CheckCircle2 size={80} strokeWidth={1} />
-                </div>
+                <div className="success-icon"><CheckCircle2 size={80} strokeWidth={1} /></div>
                 <h3>¡Mensaje Enviado!</h3>
                 <p>Gracias por contactarme. Te responderé lo antes posible.</p>
-                <button onClick={() => setFormState('idle')} className="btn btn-outline">
-                  Enviar otro mensaje
-                </button>
+                <button onClick={() => setFormState('idle')} className="btn btn-outline">Enviar otro mensaje</button>
               </div>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

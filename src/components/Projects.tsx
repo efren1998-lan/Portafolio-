@@ -57,7 +57,7 @@ export default function Projects() {
       tags: ['Next.js', 'PostgreSQL', 'Prisma', 'GraphQL'],
       link: '#', github: '#', category: 'Interno',
       images: [],
-      videoUrl: 'https://1drv.ms/v/s!Atl64vaH6WM1b4-uW7jw4oc3Pv0?e=gysfaZ'
+      videoUrl: '/assets/projects/MW.mp4'
     }
   ]
 
@@ -75,6 +75,15 @@ export default function Projects() {
 
   const closeModal = () => { setSelectedProject(null); setCurrentImageIndex(0) }
 
+  const openProject = (project: Project) => {
+    if (project.images && project.images.length > 0) {
+      setSelectedProject(project)
+      setCurrentImageIndex(0)
+    } else if (project.videoUrl) {
+      setSelectedProject(project)
+    }
+  }
+
   return (
     <section id="projects" className="projects section">
       <div className="container">
@@ -86,14 +95,7 @@ export default function Projects() {
             <div
               key={project.id}
               className="project-card glass-card"
-              onClick={() => {
-                if (project.images && project.images.length > 0) {
-                  setSelectedProject(project)
-                  setCurrentImageIndex(0)
-                } else if (project.videoUrl) {
-                  window.open(project.videoUrl, '_blank')
-                }
-              }}
+              onClick={() => openProject(project)}
               onMouseMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect()
                 e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
@@ -103,6 +105,11 @@ export default function Projects() {
               <div className="project-header">
                 {project.images && project.images.length > 0 ? (
                   <img src={project.images[0]} alt={project.title} className="project-card-image" />
+                ) : project.videoUrl ? (
+                  <div className="project-video-thumb">
+                    <video src={project.videoUrl} className="project-card-image" muted playsInline preload="metadata" />
+                    <div className="video-play-overlay"><PlayCircle size={48} /></div>
+                  </div>
                 ) : (
                   <div className="project-icon-wrapper">{project.icon}</div>
                 )}
@@ -131,34 +138,49 @@ export default function Projects() {
         </div>
 
         <div className="projects-footer">
-          <a href="https://github.com/tuusuario" target="_blank" rel="noreferrer" className="btn btn-outline">
+          <a href="https://github.com/efren1998-lan" target="_blank" rel="noreferrer" className="btn btn-outline">
             Ver más en GitHub <Github size={18} />
           </a>
         </div>
       </div>
 
+      {/* Modal */}
       {selectedProject && (
         <div className="project-modal-overlay" onClick={closeModal}>
           <div className="project-modal glass" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={closeModal}><X size={24} /></button>
+
             <div className="modal-gallery">
-              <img
-                src={selectedProject.images[currentImageIndex]}
-                alt={selectedProject.title}
-                className="modal-image"
-              />
-              {selectedProject.images.length > 1 && (
+              {selectedProject.videoUrl && selectedProject.images.length === 0 ? (
+                <video
+                  src={selectedProject.videoUrl}
+                  controls
+                  autoPlay
+                  className="modal-video"
+                  style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#000' }}
+                />
+              ) : (
                 <>
-                  <button className="gallery-nav prev" onClick={prevImage}><ChevronLeft size={32} /></button>
-                  <button className="gallery-nav next" onClick={nextImage}><ChevronRight size={32} /></button>
-                  <div className="gallery-dots">
-                    {selectedProject.images.map((_, i) => (
-                      <div key={i} className={`dot ${i === currentImageIndex ? 'active' : ''}`} onClick={() => setCurrentImageIndex(i)} />
-                    ))}
-                  </div>
+                  <img
+                    src={selectedProject.images[currentImageIndex]}
+                    alt={selectedProject.title}
+                    className="modal-image"
+                  />
+                  {selectedProject.images.length > 1 && (
+                    <>
+                      <button className="gallery-nav prev" onClick={prevImage}><ChevronLeft size={32} /></button>
+                      <button className="gallery-nav next" onClick={nextImage}><ChevronRight size={32} /></button>
+                      <div className="gallery-dots">
+                        {selectedProject.images.map((_, i) => (
+                          <div key={i} className={`dot ${i === currentImageIndex ? 'active' : ''}`} onClick={() => setCurrentImageIndex(i)} />
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
+
             <div className="modal-info">
               <h3>{selectedProject.title}</h3>
               <p>{selectedProject.description}</p>

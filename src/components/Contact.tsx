@@ -11,7 +11,7 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setFormState('submitting')
-    
+
     setTimeout(() => {
       setFormState('success')
       try {
@@ -34,7 +34,7 @@ export default function Contact() {
         <h2 className="section-title">Hablemos</h2>
 
         <div className="contact-grid">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -42,7 +42,7 @@ export default function Contact() {
           >
             <h3>Información de Contacto</h3>
             <p>Estoy disponible para nuevos proyectos y colaboraciones. ¡No dudes en escribirme!</p>
-            
+
             <div className="info-items">
               <div className="info-item">
                 <div className="info-icon"><Mail /></div>
@@ -77,71 +77,60 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="contact-form-card glass-card premium-form"
           >
-            <AnimatePresence mode="wait">
-              {formState !== 'success' ? (
-                <motion.form 
-                  key="form"
-                  onSubmit={handleSubmit}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label htmlFor="name">Nombre Completo</label>
-                      <input type="text" id="name" placeholder="Tu nombre..." required disabled={formState === 'submitting'} />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="email">Correo Electrónico</label>
-                      <input type="email" id="email" placeholder="tu@email.com" required disabled={formState === 'submitting'} />
-                    </div>
-                  </div>
-                  
+            {formState !== 'success' ? (
+              <form onSubmit={handleSubmit}>
+                <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="subject">Asunto</label>
-                    <input type="text" id="subject" placeholder="¿En qué puedo ayudarte?" required disabled={formState === 'submitting'} />
+                    <label htmlFor="name">Nombre Completo</label>
+                    <input type="text" id="name" placeholder="Tu nombre..." required disabled={formState === 'submitting'} />
                   </div>
-
                   <div className="form-group">
-                    <label htmlFor="message">Mensaje</label>
-                    <textarea id="message" rows={5} placeholder="Cuéntame sobre tu proyecto..." required disabled={formState === 'submitting'}></textarea>
+                    <label htmlFor="email">Correo Electrónico</label>
+                    <input type="email" id="email" placeholder="tu@email.com" required disabled={formState === 'submitting'} />
                   </div>
+                </div>
 
-                  <button 
-                    type="submit" 
-                    className={`btn btn-primary btn-block ${formState === 'submitting' ? 'loading' : ''}`}
-                    disabled={formState === 'submitting'}
-                  >
-                    {formState === 'submitting' ? 'Enviando...' : (
-                      <>
-                        Enviar Mensaje
-                        <Send size={18} />
-                      </>
-                    )}
-                  </button>
-                </motion.form>
-              ) : (
-                <motion.div 
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="form-success"
+                <div className="form-group">
+                  <label htmlFor="subject">Asunto</label>
+                  <input type="text" id="subject" placeholder="¿En qué puedo ayudarte?" required disabled={formState === 'submitting'} />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="message">Mensaje</label>
+                  <textarea id="message" rows={5} placeholder="Cuéntame sobre tu proyecto..." required disabled={formState === 'submitting'}></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className={`btn btn-primary btn-block ${formState === 'submitting' ? 'loading' : ''}`}
+                  disabled={formState === 'submitting'}
                 >
-                  <div className="success-icon">
-                    <CheckCircle2 size={80} strokeWidth={1} />
-                  </div>
-                  <h3>¡Mensaje Enviado!</h3>
-                  <p>Gracias por contactarme. Te responderé lo antes posible.</p>
-                  <button onClick={() => setFormState('idle')} className="btn btn-outline">Enviar otro mensaje</button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  {formState === 'submitting' ? 'Enviando...' : (
+                    <>
+                      Enviar Mensaje
+                      <Send size={18} />
+                    </>
+                  )}
+                </button>
+              </form>
+            ) : (
+              <div className="form-success">
+                <div className="success-icon">
+                  <CheckCircle2 size={80} strokeWidth={1} />
+                </div>
+                <h3>¡Mensaje Enviado!</h3>
+                <p>Gracias por contactarme. Te responderé lo antes posible.</p>
+                <button onClick={() => setFormState('idle')} className="btn btn-outline">
+                  Enviar otro mensaje
+                </button>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>

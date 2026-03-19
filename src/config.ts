@@ -47,13 +47,13 @@ export const PORTFOLIO_CONFIG = {
     {
       company: 'Fangio Telecom',
       position: 'Sistema de Control Vehicular',
-      period: '2021 - 2022',
+      period: '2025 - 2026',
       description: 'Implementación de app móvil para control vehicular con seguimiento GPS en tiempo real y registro histórico en base de datos en la nube.',
     },
     {
       company: 'Fangio Telecom',
       position: 'Automatización & Scripts',
-      period: '2020 - 2021',
+      period: '2025 - 2026',
       description: 'Creación de scripts en Python para procesar y analizar bases de datos en Excel, eliminando tareas repetitivas y automatizando documentación técnica.',
     },
   ],

@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ExternalLink, Github, Code, Layers, Globe, Smartphone, X, ChevronLeft, ChevronRight, PlayCircle } from 'lucide-react'
 import './Projects.css'
 
@@ -216,12 +216,8 @@ export default function Projects() {
         </motion.div>
       </div>
 
-      {/* Modal — sin AnimatePresence, usando display condicional simple */}
       {selectedProject && (
-        <div
-          className="project-modal-overlay"
-          onClick={closeModal}
-        >
+        <div className="project-modal-overlay" onClick={closeModal}>
           <motion.div
             className="project-modal glass"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -243,7 +239,6 @@ export default function Projects() {
                 transition={{ duration: 0.2 }}
                 className="modal-image"
               />
-
               {selectedProject.images.length > 1 && (
                 <>
                   <button className="gallery-nav prev" onClick={prevImage}>

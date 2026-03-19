@@ -13,11 +13,11 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
   useEffect(() => {
     const handleType = () => {
       const current = texts[index]
-      
+
       if (!isDeleting) {
         const nextText = current.substring(0, displayText.length + 1)
         setDisplayText(nextText)
-        
+
         if (nextText === current) {
           setIsDeleting(true)
           setSpeed(1500) // Pause at end
@@ -27,7 +27,7 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
       } else {
         const nextText = current.substring(0, displayText.length - 1)
         setDisplayText(nextText)
-        
+
         if (nextText === '') {
           setIsDeleting(false)
           setIndex((prev) => (prev + 1) % texts.length)
@@ -93,7 +93,7 @@ export default function Hero() {
       </div>
 
       <div className="container hero-container">
-        <motion.div 
+        <motion.div
           className="hero-content"
           variants={containerVariants}
           initial="hidden"
@@ -102,16 +102,15 @@ export default function Hero() {
           <motion.span className="hero-greeting" variants={itemVariants}>
             Hola, soy
           </motion.span>
-          
+
           <motion.h1 className="hero-name gradient-text" variants={itemVariants}>
             {PORTFOLIO_CONFIG.name}
           </motion.h1>
-          
+
           <motion.div className="hero-title" variants={itemVariants}>
             <TypewriterText texts={[
               'IA & Automatización',
               'Ingeniero de Datos',
-              'Full Stack Developer',
               'Cloud Solutions Architect'
             ]} />
           </motion.div>
@@ -144,14 +143,14 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="hero-image-container"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           style={{ perspective: 1000 }}
         >
-          <motion.div 
+          <motion.div
             className="profile-card glass"
             style={{ rotateX: cardRotateX, rotateY: cardRotateY }}
           >
@@ -159,7 +158,7 @@ export default function Hero() {
               <img src="/assets/photo.jpg" alt={PORTFOLIO_CONFIG.name} className="profile-image" />
               <div className="profile-glow"></div>
             </div>
-            
+
             <div className="profile-stats">
               <div className="p-stat">
                 <span className="p-num">{PORTFOLIO_CONFIG.stats.experience}</span>
@@ -181,7 +180,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <motion.div 
+      <motion.div
         className="scroll-indicator"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

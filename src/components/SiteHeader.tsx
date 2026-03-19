@@ -4,7 +4,7 @@ import { Menu, X, Github, Linkedin, Twitter } from 'lucide-react'
 import './SiteHeader.css'
 import { PORTFOLIO_CONFIG } from '../config'
 
-const { useState, useEffect } = React
+const { useState } = React
 
 interface NavbarProps {
   isScrolled: boolean

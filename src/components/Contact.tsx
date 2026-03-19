@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, CheckCircle2 } from 'lucide-react'
 import { useState } from 'react'
 import confetti from 'canvas-confetti'

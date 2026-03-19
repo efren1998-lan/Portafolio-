@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import SiteHeader from './components/SiteHeader.tsx'
-import Hero from './components/Hero.tsx'
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -15,7 +14,6 @@ function App() {
   return (
     <div className="app">
       <SiteHeader isScrolled={isScrolled} />
-      <Hero />
     </div>
   )
 }

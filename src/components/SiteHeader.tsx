@@ -1,10 +1,8 @@
-import { motion, AnimatePresence } from 'framer-motion'
 import * as React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Github, Linkedin, Twitter } from 'lucide-react'
 import './SiteHeader.css'
 import { PORTFOLIO_CONFIG } from '../config'
-
 interface NavbarProps {
   isScrolled: boolean
 }

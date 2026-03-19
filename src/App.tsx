@@ -8,23 +8,18 @@ import Skills from './components/Skills.tsx'
 import Services from './components/Services.tsx'
 import Contact from './components/Contact.tsx'
 import Footer from './components/Footer.tsx'
-import CustomCursor from './components/CustomCursor.tsx'
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false)
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
-
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
   return (
     <div className="app">
-      <CustomCursor />
       <SiteHeader isScrolled={isScrolled} />
       <Hero />
       <About />
@@ -36,6 +31,4 @@ function App() {
     </div>
   )
 }
-
 export default App
-
